@@ -18,7 +18,7 @@ const flash=require('connect-flash')
 const passport=require('passport')
 const localStrategy=require('passport-local')
 const User=require('./models/user')
-
+const PORT = process.env.PORT || 3000;
 //DATA BASE CONNCECTION
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {});
 const db = mongoose.connection;
@@ -86,6 +86,6 @@ app.use((err, req, res, next) => {
 
 
 
-app.listen(5000,()=>{
+app.listen(PORT,()=>{
     console.log("app is listing on port 5000....");;
 })
