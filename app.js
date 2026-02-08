@@ -20,7 +20,7 @@ const localStrategy=require('passport-local')
 const User=require('./models/user')
 const PORT = process.env.PORT || 3000;
 //DATA BASE CONNCECTION
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {});
+mongoose.connect(process.env.MONGO_URI, {});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
