@@ -1,22 +1,42 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
 
-    <!-- LEFT SIDE -->
-    <div class="navbar-nav ms-3">
-      <a class="nav-link active" href="/">Home</a>
-      <a class="nav-link" href="/campgrounds">All Campgrounds</a>
-      <a class="nav-link" href="/campgrounds/new">New Campground</a>
-    </div>
+  <div class="container">
 
-    <!-- RIGHT SIDE -->
-    <div class="navbar-nav ms-auto me-3">
-      <% if (!currentUser) { %>
-        <a class="nav-link" href="/login">Login</a>
-        <a class="nav-link" href="/register">Register</a>
-      <% } else { %>
-        <a class="nav-link" href="/logout">Logout</a>
-      <% } %>
+    <!-- Brand -->
+    <a class="navbar-brand" href="/">YelpCamp</a>
+
+    <!-- Hamburger Button -->
+    <button class="navbar-toggler" type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup"
+      aria-expanded="false">
+
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible Menu -->
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+      <!-- LEFT SIDE -->
+      <div class="navbar-nav">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/campgrounds">All Campgrounds</a>
+        <a class="nav-link" href="/campgrounds/new">New Campground</a>
+      </div>
+
+      <!-- RIGHT SIDE -->
+      <div class="navbar-nav ms-auto">
+        <% if (!currentUser) { %>
+          <a class="nav-link" href="/login">Login</a>
+          <a class="nav-link" href="/register">Register</a>
+        <% } else { %>
+          <a class="nav-link" href="/logout">Logout</a>
+        <% } %>
+      </div>
+
     </div>
 
   </div>
+
 </nav>
