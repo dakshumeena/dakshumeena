@@ -1,20 +1,22 @@
-  require("dotenv").config();
-  const cloudinary = require('cloudinary').v2;
-const multerStorageCloudinary = require('multer-storage-cloudinary');
+require("dotenv").config();
 
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+// config
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_KEY,
-    api_secret: process.env.CLOUDINARY_SECRET
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-const storage = multerStorageCloudinary({
-    cloudinary: cloudinary,
-    folder: 'YelpCamp',
-    allowedFormats: ['jpeg', 'png', 'jpg']
+// storage
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "YelpCamp",
+    allowed_formats: ["jpg", "png", "jpeg"],
+  },
 });
 
-module.exports = {
-    cloudinary,
-    storage
-};
+module.exports = { cloudinary, storage };
