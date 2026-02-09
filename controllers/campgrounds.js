@@ -10,8 +10,9 @@ module.exports.renderNewForm=(req,res)=>{
 }
 module.exports.createCampground=async(req,res,next)=>{
   const campground= new Campground(req.body.campground);
-  campground.images=req.files.map(f=>({ url: f.secure_url || f.url,
-    filename: f.public_id}))
+  campground.images=req.files.map(f=>({ 
+    url: f.path,
+    filename: f.filename}))
   console.log(req.files);
   campground.author=req.user._id
   await campground.save();
