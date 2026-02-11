@@ -10,11 +10,11 @@
 
     <% campground.images.forEach((img, i) => { %>
 
-      <% if (img.url) { %>
+      <% if (img.url ||img.path) { %>
         <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
 
           <img class="d-block w-100 card-img-top"
-               src="<%= img.url %>">
+               src="<%= img.url || img.path %>">
 
         </div>
       <% } %>

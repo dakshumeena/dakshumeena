@@ -4,14 +4,17 @@ const User=require('./user')
 
 const Schema = mongoose.Schema;
 
+//https://res.cloudinary.com/demo/image/upload/c_thumb,g_face,h_200,w_200/r_max/f_auto/woman-blackdress-stairs.png
+ const imageSchema= new Schema({
+     url:String,
+    filename:String
+ })
+ imageSchema.virtual('thumbnail').get(function(){
+     return this.url.replace('/upload','/upload/w_200')
+ })
 const CampgroundSchema = new Schema({
     title: String,
-    images: [
-        {
-            url:String,
-            filename:String
-        }
-    ],
+    images: [imageSchema],
     price: Number,
     description: String,
     location: String,

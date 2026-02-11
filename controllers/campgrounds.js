@@ -1,5 +1,5 @@
 const Campground = require('../models/campground');
-
+const {cloudinary}=require('../cloudinary')
 
 module.exports.index=(async(req,res)=>{
   const campgrounds=await Campground.find({});
@@ -13,7 +13,6 @@ module.exports.createCampground=async(req,res,next)=>{
   campground.images=req.files.map(f=>({ 
     url: f.path,
     filename: f.filename}))
-  console.log(req.files);
   campground.author=req.user._id
   await campground.save();
   console.log(campground)
@@ -32,7 +31,6 @@ module.exports.showCampgrounds=async(req,res)=>{
     req.flash("error","cant find this campground")
     return res.redirect("/campgrounds")
   }
-   console.log("IMAGES:", campground.images);
   res.render("campgrounds/show", { campground });
 }
 module.exports.renderEditForm=async(req,res)=>{
@@ -40,12 +38,35 @@ module.exports.renderEditForm=async(req,res)=>{
   
   res.render("campgrounds/edit",{campground});
 }
-module.exports.updateCampground=async(req,res)=>{
-     const {id}=req.params;
-     const campground= await Campground.findByIdAndUpdate(id,{...req.body.campground});
-      req.flash('success',"successfully updated!")
-    res.redirect(`/campgrounds/${campground._id}`);
-}
+module.exports.updateCampground = async (req, res) => {
+  const { id } = req.params;
+
+  const campground = await Campground.findByIdAndUpdate(
+    id,
+    { ...req.body.campground },
+    { new: true } 
+  ); 
+  if (req.files && req.files.length > 0) {
+    const imgs = req.files.map(f => ({
+      url: f.path,
+      filename: f.filename
+    }));
+
+    campground.images.push(...imgs);
+  }
+
+  await campground.save();
+ if(req.body.deleteImages){
+  for(let filename of req.body.deleteImages){
+     await cloudinary.uploader.destroy(filename)
+  }
+  await campground.updateOne({$pull:{images:{filename:{$in:req.body.deleteImages}}}})
+  console.log(campground)
+ }
+  req.flash('success', "successfully updated!");
+  res.redirect(`/campgrounds/${campground._id}`);
+};
+
 module.exports.deleteCampground=async (req, res) => {
   const { id } = req.params;
   await Campground.findByIdAndDelete(id);
