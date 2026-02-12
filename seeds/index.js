@@ -42,8 +42,16 @@ const seedDB = async () => {
     const imageSeed = `${random1000}-${i}`;
 
     const camp = new Campground({
+         author: '', 
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
+         geometry: {
+                type: "Point",
+                coordinates: [
+                    cities[random1000].longitude,
+                    cities[random1000].latitude,
+                ]
+            },
        images: [
         {
           url: `https://picsum.photos/seed/${imageSeed}/600/400`,
